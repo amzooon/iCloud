@@ -1,43 +1,172 @@
+:root {
+  --accent: #ff5ac8;
+  --accent2: #ff0080;
+  --bg-dark: #0d0a10;
+  --text-light: #fff;
+}
+
 body {
-  background-color: #121212;
-  color: white;
-  font-family: system-ui, sans-serif;
-  text-align: center;
   margin: 0;
-  padding: 20px;
+  padding: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  color: var(--text-light);
+  background: radial-gradient(circle at top, #1b0b16, var(--bg-dark));
+  overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
+/* --- SFONDO ROTANTE ROSA --- */
+body::before {
+  content: "";
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    from 180deg at 50% 50%,
+    var(--accent),
+    var(--accent2),
+    #ff00a8,
+    var(--accent)
+  );
+  animation: rotate 25s linear infinite;
+  z-index: -2;
+  opacity: 0.15;
+  filter: blur(100px);
+}
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* --- TITOLO --- */
 h1 {
-  margin-bottom: 20px;
+  margin-top: 40px;
+  font-size: 2rem;
+  letter-spacing: 1px;
+  font-weight: 600;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  backdrop-filter: blur(12px);
 }
 
+/* --- BARRA PROGRESSO --- */
+.progress-container {
+  width: 80%;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 15px auto 30px;
+  overflow: hidden;
+  backdrop-filter: blur(6px);
+}
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent2), var(--accent));
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+/* --- GRIGLIA 8 COLONNE --- */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(8, 1fr); /* 👈 8 immagini per riga */
+  gap: 15px;
+  width: 95%;
+  max-width: 1800px;
+  padding-bottom: 60px;
   justify-items: center;
-  align-items: center;
 }
 
+/* --- BOX IMMAGINI QUADRATI --- */
 .grid-item {
-  background-color: #1e1e1e;
-  border-radius: 12px;
-  overflow: hidden;
+  position: relative;
   width: 100%;
-  aspect-ratio: 1/1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: transform 0.2s ease;
+  aspect-ratio: 1 / 1; /* 👈 mantiene forma quadrata */
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(15px);
+  transform: translateY(25px);
+  opacity: 0;
+  transition: all 0.6s ease;
+}
+
+.grid-item.loaded {
+  transform: translateY(0);
+  opacity: 1;
 }
 
 .grid-item:hover {
   transform: scale(1.05);
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
 }
 
+/* --- MEDIA (foto/video) --- */
 .grid-item img,
 .grid-item video {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: inherit;
+}
+
+/* --- DOWNLOAD BUTTON CON ICONA PERSONALIZZATA --- */
+.download-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 38px;
+  height: 38px;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  transition: transform 0.3s, background 0.3s;
+}
+
+.download-btn:hover {
+  transform: scale(1.15);
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 12px rgba(255, 100, 200, 0.6);
+}
+
+.download-btn img {
+  width: 20px;
+  height: 20px;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 1600px) {
+  .grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+@media (max-width: 1200px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+@media (max-width: 800px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 500px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
