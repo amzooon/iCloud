@@ -59,7 +59,7 @@ async function loadFilesSequentially(files) {
     downloadBtn.title = 'Scarica';
     
     const icon = document.createElement('img');
-    icon.src = 'download.png'; // 👈 percorso dell’icona
+    icon.src = 'icona.png'; // 👈 percorso dell’icona
     icon.alt = 'Download';
     downloadBtn.appendChild(icon);
     
